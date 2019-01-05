@@ -3,4 +3,4 @@ Eredeti projektmunkánk egy gyroszkóppal és egy gps-szel elátott Raspberry pi
 A választott projektmunkánkat azonban előre nem látott teknikai okokból nem tudtuk megvalósítani, ezért apró változtatásra szántuk el magunkat. 
 
 Jelen helyzetben a Raspberry egy SenseHat-tel üzemel. Feladata, egy nyomvonalon haladó jármű aktuális helyzetének érzékelése.
-Ha a jármű kritikus helyzetbe kerül (felborul), a program Twitter üzenetet oszt meg. 
+SenseHaten található gomb lenyomásával aktiválódik az érzékelő. Ha a jármű kritikus helyzetbe kerül (felborul), a program Twitter üzenetet oszt meg. 
