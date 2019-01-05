@@ -1,1 +1,78 @@
+from sense_hat import SenseHat
 
+
+sense = SenseHat()
+sense.clear()
+
+X = [255, 0, 0]  # Red
+O = [255, 255, 255]  # White
+
+arrow = [
+O, O, O, X, X, O, O, O,
+O, O, X, X, X, X, O, O,
+O, X, X, X, X, X, X, O,
+X, X, O, X, X, O, X, X,
+X, O, O, X, X, O, O, X,
+O, O, O, X, X, O, O, O,
+O, O, O, X, X, O, O, O,
+O, O, O, X, X, O, O, O
+]
+
+exclamation_mark = [
+O, O, O, O, O, O, O, O,
+O, O, O, O, O, O, O, O,
+O, O, O, O, O, O, O, O,
+X, X, X, X, X, O, X, X,
+X, X, X, X, X, O, X, X,
+O, O, O, O, O, O, O, O,
+O, O, O, O, O, O, O, O,
+O, O, O, O, O, O, O, O
+]
+
+event = sense.stick.wait_for_event()
+if event.action == "pressed":
+    print("Your motorbike is ready")
+   
+    stabil = True
+    while stabil:
+        o = sense.get_orientation()
+        pitch = o["pitch"]
+        roll = o["roll"]
+        yaw = o["yaw"]
+        
+        if pitch >= 10 and pitch <= 85:
+            sense.set_rotation(270)
+            sense.set_pixels(arrow)
+            print("Stoppie")
+        
+        elif pitch <= 350 and pitch >= 275:
+            sense.set_rotation(90)
+            sense.set_pixels(arrow)
+            print("Wheelie")
+        
+        if roll >= 10 and roll <= 40:
+            sense.set_rotation(180)
+            sense.set_pixels(arrow)
+            print("Left")
+        
+        elif roll <= 350 and roll >= 320:
+            sense.set_rotation(0)
+            sense.set_pixels(arrow)
+            print("Right")
+        
+        if roll >= 45 and roll <= 315:
+            stabil = False
+            sense.set_pixels(exclamation_mark)
+            print("Bike is on the ground")
+            print("Its last status: pitch {0}, roll {1}, yaw {2}".format(pitch, roll, yaw))
+            
+            #twitter = Twython(
+            #consumer_key,
+            #consumer_secret,
+            #access_token,
+            #access_token_secret)
+
+            #message = "MY BIKE IS IN A CRITICAL STATUS"
+            #twitter.update_status(status = message)
+            #print("Tweeted: %s" %message)
+ 
