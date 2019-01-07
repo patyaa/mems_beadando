@@ -1,12 +1,12 @@
 from sense_hat import SenseHat
-
+from twython import Twython
 
 sense = SenseHat()
 sense.clear()
 
 X = [255, 0, 0]  # Red
 O = [255, 255, 255]  # White
-
+# LED mátrixon megjelenő nyíl irányváltásoknál.
 arrow = [
 O, O, O, X, X, O, O, O,
 O, O, X, X, X, X, O, O,
@@ -17,29 +17,30 @@ O, O, O, X, X, O, O, O,
 O, O, O, X, X, O, O, O,
 O, O, O, X, X, O, O, O
 ]
-
-exclamation_mark = [
-O, O, O, O, O, O, O, O,
-O, O, O, O, O, O, O, O,
-O, O, O, O, O, O, O, O,
-X, X, X, X, X, O, X, X,
-X, X, X, X, X, O, X, X,
-O, O, O, O, O, O, O, O,
-O, O, O, O, O, O, O, O,
-O, O, O, O, O, O, O, O
+#LED mátrixon megjelenő 'X' borulás esetén.
+X_mark = [
+X, O, O, O, O, O, O, X,
+O, X, O, O, O, O, X, O,
+O, O, X, O, O, X, O, O,
+O, O, O, X, X, O, O, O,
+O, O, O, X, X, O, O, O,
+O, O, X, O, O, X, O, O,
+O, X, O, O, O, O, X, O,
+X, O, O, O, O, O, O, X
 ]
-
+print("The system is waiting. To activate, press the button on the Sensehat.")
 event = sense.stick.wait_for_event()
 if event.action == "pressed":
     print("Your motorbike is ready")
-   
-    stabil = True
+    
+    stabil = True #Logikai változó. A rendszer kezdetben stabil. 
     while stabil:
+        #gyroszkóp
         o = sense.get_orientation()
         pitch = o["pitch"]
         roll = o["roll"]
         yaw = o["yaw"]
-        
+        #dőlésszögek vizsgálata
         if pitch >= 10 and pitch <= 85:
             sense.set_rotation(270)
             sense.set_pixels(arrow)
@@ -59,20 +60,20 @@ if event.action == "pressed":
             sense.set_rotation(0)
             sense.set_pixels(arrow)
             print("Right")
-        
+        #Kritikus dőlésszög vizsgálata. Borulás esetén üzenet
         if roll >= 45 and roll <= 315:
             stabil = False
-            sense.set_pixels(exclamation_mark)
+            sense.set_pixels(X_mark)
             print("Bike is on the ground")
             print("Its last status: pitch {0}, roll {1}, yaw {2}".format(pitch, roll, yaw))
             
-            #twitter = Twython(
-            #consumer_key,
-            #consumer_secret,
-            #access_token,
-            #access_token_secret)
+            #consumer_key = ''
+            #consumer_secret = ''
+            #access_token = ''
+            #access_token_secret = ''
+            #api = Twython(consumer_key,consumer_secret,access_token,access_token_secret)
 
             #message = "MY BIKE IS IN A CRITICAL STATUS"
-            #twitter.update_status(status = message)
-            #print("Tweeted: %s" %message)
+            #api.update_status(status = message)
+            #print(message)
  
